@@ -1,33 +1,32 @@
-#include <string> 
-#include<set>
-#include<list>
-#include<deque>
-#include<vector>
-#include <random>
 #include <iostream>
-#include <chrono>
-#include <cmath>
-#include "../include/Lab3.hxx"
-#include "Lab2.cxx"
 #include <fstream>
+#include <cmath>
+
+double U(double r, double eps = 1, double sig = 1){
+    return 4 * eps * pow(sig/r,6) *( pow(sig/r,6)-1);
+}
+
+class Univers {
+public:
+    double eps ;
+    double sig;
+    double dim ;
+    double ld;
+    double rc;
+    Univers(double e, double s, int dimension, double l, double rcut)
+        : eps(e), sig(s), dim(dimension), ld(l), rc(rcut) {}
+};
 
 
-int main(){
-    
-    Particle P1 = Particle(Vector(0,5.36,0), Vector(-0.425,0,0), 9.55e-4, 2, Vector(9.55e4,9.55e4,0), "Jupiter") ; 
-    Particle P2 = Particle(Vector(0,0,0), Vector(0,0,0), 1, 0, Vector(0,0,0), "Soleil") ; 
-
-    std::ofstream file("particules.txt") ; 
-
-    file << P1.getPosition().getX() << " " << P1.getPosition().getY() << " " << P1.getCat() << std::endl;
-    file << P2.getPosition().getX() << " " << P2.getPosition().getY() << " " << P2.getCat() << std::endl;
-
-    file.close(); 
-
-
-
-
-
-
-    return 0 ; 
+int main() {
+    std:: ofstream file("lab.dat");
+    double rm=0.3;
+    double rmm=3.0;
+    int N = 500;
+    for (int i = 0; i < 500; i++){
+        double r = rm + (rmm - rm) * i / (N - 1);
+        double res = U(r);
+        file << r << " " << res << std::endl;
+    }
+    return 0;
 }

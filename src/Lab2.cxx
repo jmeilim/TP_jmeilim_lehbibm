@@ -10,15 +10,22 @@
 
 class Particle {
     private :
-    Vector position ; 
 
+    // Les attribus
+
+    Vector position ; 
     Vector vitesse ; 
     int masse ; 
     int id ; 
     Vector force ; 
     std::string cat ; 
+
+    // Constructeur
+    
     public :Particle ( Vector position ,Vector vitesse, int masse, int id ,   Vector force  ,  std::string cat  )
         : position(position) , vitesse(vitesse), masse (masse) , id(id) ,force(force) ,cat(cat) {}
+
+
     public :
     Vector getPosition() const { return position; }
     Vector getVitesse() const { return vitesse; }
@@ -32,6 +39,11 @@ class Particle {
     
 };
 Vector computeForce(Particle p, std::vector<Particle>& ps);
+
+
+
+// Implementation du Stromer-Algorithm
+
 double *stromer(std::vector<Particle> & particleList, std::vector< Vector > Fo ){
     double dt = 0.015; 
     double tend = 468.5 ;
