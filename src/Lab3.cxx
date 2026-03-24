@@ -11,34 +11,63 @@
 #include "Lab2.cxx"
 
 
+
+
+/**
+ * @brief classe représente l'univers contenant toutes les particules
+ * 
+ */
 class Univers {
 
 private:
 
-    int dimension;
-    int nbParticles;
+    int dimension; ///< dimension de l'espace (1D, 2D, 3D)
+    int nbParticles; ///< liste des particules
+
     std::vector<Particle> particles;
 
 public:
-
+    /**
+     * @brief Constructeur de Univers
+     * @param dimension dimension de l'espace
+     */
     Univers(int dimension) : dimension(dimension) {}
 
+
+    /**
+     * @brief Ajoute une particule à l'univers
+     * @param p particule à ajouter
+     */
     void addParticle(const Particle& p)
     {
         particles.push_back(p);
         nbParticles = particles.size();
     }
 
+
+    /**
+     * @brief Acces aux particules
+     * @return liste des particules
+     */
     std::vector<Particle>& getParticles()
     {
         return particles;
     }
 
+
+     /**
+     * @brief Retourne le nombre de particules
+     */
     int getNbParticles() const
     {
         return nbParticles;
     }
 
+
+
+    /**
+     * @brief Affiche les positions des particules
+     */    
     void afficher() const
     {
         for(const auto& p : particles)
@@ -49,34 +78,3 @@ public:
         }
     }
 };
-
-
-
-int main() {
-    auto start = std::chrono::steady_clock::now();
-
-    std::vector<Particle> particles = {
-
-    Particle(Vector(0,0,0), Vector(0,0,0), 1, 0, Vector(0,0,0), "Soleil"),
-
-    Particle(Vector(0,1,0), Vector(-1,0,0), 3.0e-6, 1, Vector(0,0,0), "Terre"),
-
-    Particle(Vector(0,5.36,0), Vector(-0.425,0,0), 9.55e-4, 2, Vector(0,0,0), "Jupiter"),
-
-    Particle(Vector(34.75,0,0), Vector(0,0.0296,0), 1.0e-14, 3, Vector(0,0,0), "Halley")
-
-    };
-    std::vector<Vector> Fo = { Vector(1.0e-14,1.0e-14 , 1.0e-14) , Vector(1.0e-14,1.0e-14 , 1.0e-14) , Vector(1.0e-14,1.0e-14 , 1.0e-14) , Vector(1.0e-14,1.0e-14 , 1.0e-14) } ;
-
-    stromer(particles, Fo);
-
-    Univers u(3);
-    int N = 1 << 25 ; 
-    for ( int i = 0 ; i< N ; i++){
-        u.addParticle( Particle( Vector(i,i,i) , Vector(1,1,1) , 1.0e-14 , i , Vector(0,0,0) , "Uniforme" ) ) ;
-    }
-    auto end = std::chrono::steady_clock::now();
-    std::chrono::duration<double> elapsed_seconds = end-start;
-    std::cout << "elapsed time: " << elapsed_seconds.count() << "s\n";
-    return 0 ;
-}
