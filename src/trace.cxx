@@ -83,3 +83,40 @@ double trace(double **matrix, int n) {
     sum += matrix[i][i];
   return sum;
 }
+
+
+double f(double t, double y) {
+    return -50.0 * (y - cos(t));
+}
+/// @brief Résout une EDO par la méthode d’Euler explicite
+/// @param[in] h pas de discrétisation
+/// @param[in] N nombre d’itérations
+/// @return vecteur contenant les approximations de la solution
+std::vector<double> euler_explicit(double h, int N) {
+    std::vector<double> y(N+1);
+    y[0] = 0.0;
+    for (int n = 0; n < N; n++) {
+        double t = n * h;
+        y[n+1] = y[n] + h * f(t, y[n]);
+    }
+    return y;
+}
+
+/// @brief Résout une EDO par la méthode d’Euler implicite
+/// @param[in] h pas de discrétisation
+/// @param[in] N nombre d’itérations
+/// @return vecteur contenant les approximations de la solution
+std::vector<double> euler_implicit(double h, int N) {
+    std::vector<double> y(N+1);
+    y[0] = 0.0;
+    for (int n = 0; n < N; n++) {
+        double t = (n+1) * h;
+        double yn = y[n];
+        double ynew = yn;
+        for (int k = 0; k < 5; k++) {
+            ynew = yn + h * (-50.0 * (ynew - cos(t)));
+        }
+        y[n+1] = ynew;
+    }
+    return y;
+}

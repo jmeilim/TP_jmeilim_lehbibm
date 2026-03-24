@@ -1,14 +1,8 @@
 #include <string> 
-#include<set>
-#include<list>
-#include<deque>
-#include<vector>
-#include <random>
 #include <iostream>
 #include <chrono>
-#include <cmath>
 #include "../include/Lab3.hxx"
-#include "Lab2.cxx"
+#include "../include/Lab2.hxx"
 
 
 
