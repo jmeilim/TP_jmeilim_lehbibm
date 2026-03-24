@@ -10,11 +10,9 @@
 
 
     /** 
-     * @brief 
-     * 
+     * @brief Classe représentante une particule dans la simulation
      * 
      */
-
 class Particle {
     private :
 
@@ -35,22 +33,38 @@ class Particle {
      * @param id identifiant unique
      * @param force force initiale
      * @param cat catégorie de la particule
-     */  
-    
-     
+     */   
     public :Particle ( Vector position ,Vector vitesse, int masse, int id ,   Vector force  ,  std::string cat  )
         : position(position) , vitesse(vitesse), masse (masse) , id(id) ,force(force) ,cat(cat) {}
 
 
     public :
+
+    /// @brief Accès modifiable position
     Vector getPosition() const { return position; }
+    
+    /// @brief Accès modifiable vitesse
     Vector getVitesse() const { return vitesse; }
+    
+    /// @brief Accès lecture position
     Vector& getPosition() { return position; }
+    
+    /// @brief Accès lecture vitesse
     Vector& getVitesse() { return vitesse; }
+    
+    /// @brief Accès modifiable force
     Vector& getForce() { return force; }
+    
+    /// @brief Retourne la masse
     int getMasse() const { return masse; }
+    
+    /// @brief Retourne l'identifiant
     int getId() const { return id; }
+    
+    /// @brief Accès lecture force
     Vector getForce() const { return force; }
+    
+    /// @brief Retourne la catégorie
     std::string getCat() const { return cat; }
     
 };
@@ -60,9 +74,8 @@ Vector computeForce(Particle &p, std::vector<Particle>& ps);
 /**
  * @brief Implementation du Stromer-Algorithm
  * 
- * @param particleList 
- * @param Fo 
- * @return double* 
+ * @param particleList liste des particules 
+ * @param Fo  Fo vecteur des forces précédentes
  */
 void stromer(std::vector<Particle> & particleList, std::vector< Vector >& Fo ){
     double dt = 0.015; 
