@@ -4,9 +4,15 @@
 #include <chrono>
 #include "../include/Lab3.hxx"
 #include "../include/Lab2.hxx"
+#include "../include/Lab4.hxx"
 
-
-Vector computeForce(const Particle& p, std::vector<Particle>& ps);
+Vector computeForce(const Particle& p,
+                    std::vector<Particle>& ps,
+                    double rc,
+                    std::vector<Cellule>& grid,
+                    double cellSize,
+                    int nx,
+                    int ny);
 
 
 /**
@@ -16,47 +22,56 @@ Vector computeForce(const Particle& p, std::vector<Particle>& ps);
  * @param Fo  Fo vecteur des forces précédentes
  */
 
-void stromer(std::vector<Particle> & particleList, std::vector<Vector> &Fo) {
+void stromer(std::vector<Particle>& particleList,
+             std::vector<Vector>& Fo,
+             std::vector<Cellule>& grid,
+             double rc,
+             double cellSize,
+             int nx,
+             int ny) {
+
     double dt = 0.001;
-    double tend = 468.5;
     int N = particleList.size();
 
     std::vector<Vector> F(N, Vector(0.0,0.0,0.0));
 
+    updateCells(grid, particleList, cellSize, nx, ny);
+
     for (int i = 0; i < N; i++)
-        F[i] = computeForce(particleList[i], particleList);
+        F[i] = computeForce(particleList[i], particleList, rc, grid, cellSize, nx, ny);
 
     double t = 0;
 
-    while (t < tend) {
-        t += dt;
+    
 
-        for (int i = 0; i < N; i++) {
-            double m = particleList[i].getMasse();
-            if (m < 1e-12) m = 1e-12;
+    for (int i = 0; i < N; i++) {
+        double m = particleList[i].getMasse();
+        if (m < 1e-12) m = 1e-12;
 
-            for (int d = 0; d < 2; d++) {
-                particleList[i].getPosition()[d] += dt * particleList[i].getVitesse()[d]
-                    + 0.5 * dt * dt * F[i][d] / m;
-            }
-        }
-
-        for (int i = 0; i < N; i++)
-            Fo[i] = F[i];
-
-        for (int i = 0; i < N; i++)
-            F[i] = computeForce(particleList[i], particleList);
-
-        for (int i = 0; i < N; i++) {
-            double m = particleList[i].getMasse();
-            if (m < 1e-12) m = 1e-12;
-
-            for (int d = 0; d < 2; d++) {
-                particleList[i].getVitesse()[d] +=
-                    0.5 * dt * (F[i][d] + Fo[i][d]) / m;
-            }
+        for (int d = 0; d < 2; d++) {
+            particleList[i].getPosition()[d] +=
+                dt * particleList[i].getVitesse()[d]
+                + 0.5 * dt * dt * F[i][d] / m;
         }
     }
+
+    for (int i = 0; i < N; i++)
+        Fo[i] = F[i];
+    updateCells(grid, particleList, cellSize, nx, ny);
+
+    for (int i = 0; i < N; i++)
+        F[i] = computeForce(particleList[i], particleList, rc, grid, cellSize, nx, ny);
+
+    for (int i = 0; i < N; i++) {
+        double m = particleList[i].getMasse();
+        if (m < 1e-12) m = 1e-12;
+
+        for (int d = 0; d < 2; d++) {
+            particleList[i].getVitesse()[d] +=
+                0.5 * dt * (F[i][d] + Fo[i][d]) / m;
+        }
+    }
+    
 }
 
 /**
@@ -66,20 +81,48 @@ void stromer(std::vector<Particle> & particleList, std::vector<Vector> &Fo) {
  * @param ps liste des particules
  * @return Vector force résultante
  */
-Vector computeForce(const Particle& p, std::vector<Particle>& ps) {
+Vector computeForce(const Particle& p,
+                    std::vector<Particle>& ps,
+                    double rc,
+                    std::vector<Cellule>& grid,
+                    double cellSize,
+                    int nx,
+                    int ny) {
+
     Vector F(0.0, 0.0, 0.0);
 
-    for (int j = 0; j < ps.size(); j++) {
-        if (ps[j].getId() != p.getId()) {
+    int px = p.getPosition()[0] / cellSize;
+    int py = p.getPosition()[1] / cellSize;
 
-            double dx = ps[j].getPosition()[0] - p.getPosition()[0];
-            double dy = ps[j].getPosition()[1] - p.getPosition()[1];
+    for (int i = -1; i <= 1; i++) {
+        for (int j = -1; j <= 1; j++) {
 
-            double r2 = dx*dx + dy*dy + 1e-12;
-            double inv_r3 = 1.0 / (r2 * sqrt(r2));
+            int vx = px + i;
+            int vy = py + j;
 
-            F[0] += ps[j].getMasse() * dx * inv_r3;
-            F[1] += ps[j].getMasse() * dy * inv_r3;
+            if (vx < 0 || vy < 0 || vx >= nx || vy >= ny) continue;
+
+            int id = vx * ny + vy;
+
+            double dx = grid[id].center[0] - p.getPosition()[0];
+            double dy = grid[id].center[1] - p.getPosition()[1];
+
+            double r2 = dx*dx + dy*dy;
+            if (r2 > rc*rc) continue;
+
+            for (int k : grid[id].particles) {
+
+                if (ps[k].getId() == p.getId()) continue;
+
+                double dxp = ps[k].getPosition()[0] - p.getPosition()[0];
+                double dyp = ps[k].getPosition()[1] - p.getPosition()[1];
+
+                double r2p = dxp*dxp + dyp*dyp + 1e-12;
+                double inv_r3 = 1.0 / (r2p * sqrt(r2p));
+
+                F[0] += ps[k].getMasse() * dxp * inv_r3;
+                F[1] += ps[k].getMasse() * dyp * inv_r3;
+            }
         }
     }
 

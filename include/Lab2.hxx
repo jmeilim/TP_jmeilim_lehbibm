@@ -4,6 +4,11 @@
 #include <string>
 #include "Lab3.hxx"
 
+struct Cellule {
+    Vector center;
+    std::vector<int> particles;
+    Cellule() : center(0.0, 0.0, 0.0) {}
+};
     /** 
      * @brief Classe représentante une particule dans la simulation
      * 
@@ -64,5 +69,17 @@ class Particle {
     
 };
 
-Vector computeForce(const Particle& p, std::vector<Particle>& ps);
-void stromer(std::vector<Particle>& particleList, std::vector<Vector>& Fo);
+Vector computeForce(const Particle& p,
+                    std::vector<Particle>& ps,
+                    double rc,
+                    std::vector<Cellule>& grid,
+                    double cellSize,
+                    int nx,
+                    int ny);
+void stromer(std::vector<Particle>& particleList,
+             std::vector<Vector>& Fo,
+             std::vector<Cellule>& grid,
+             double rc,
+             double cellSize,
+             int nx,
+             int ny) ;
