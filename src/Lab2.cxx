@@ -117,11 +117,18 @@ Vector computeForce(const Particle& p,
                 double dxp = ps[k].getPosition()[0] - p.getPosition()[0];
                 double dyp = ps[k].getPosition()[1] - p.getPosition()[1];
 
-                double r2p = dxp*dxp + dyp*dyp + 1e-12;
-                double inv_r3 = 1.0 / (r2p * sqrt(r2p));
+                double r2p = dxp*dxp + dyp*dyp;
+                if (r2p < 1e-6) continue;
 
-                F[0] += ps[k].getMasse() * dxp * inv_r3;
-                F[1] += ps[k].getMasse() * dyp * inv_r3;
+                double r = sqrt(r2p);
+                if (r > rc) continue;
+                double sr = 1.0 / r;
+                double sr2 = sr * sr;
+                double sr6 = sr2 * sr2 * sr2;
+
+                double f = 24.0 * sr6 * (1.0 - 2.0 * sr6) / r2p;
+                F[0] += f * dxp;
+                F[1] += f * dyp;
             }
         }
     }

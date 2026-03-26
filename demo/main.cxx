@@ -8,18 +8,15 @@
 
 int main() {
 
-    // ===== Paramètres =====
     double sigma = 1.0;
     double d = pow(2.0, 1.0/6.0) * sigma;
 
     double rc = 2.5 * sigma;
     double dt = 0.001;
-    double tend = 1;
+    double tend = 2;
 
-    // ===== Particules =====
     std::vector<Particle> particles;
 
-    // ===== Rectangle (bleu) =====
     for (int i = 0; i < 160; i++) {
         for (int j = 0; j < 40; j++) {
 
@@ -32,11 +29,12 @@ int main() {
         }
     }
 
-    // ===== Carré (rouge) =====
+    double centerX = (160 * d) / 2.0;
+    double squareWidth = 40 * d;
     for (int i = 0; i < 40; i++) {
         for (int j = 0; j < 40; j++) {
 
-            Vector pos(40 + i * d, 60 + j * d, 0);
+            Vector pos(centerX - squareWidth / 2 + i * d, 47 + j * d, 0);
             Vector vel(0, -10, 0);
 
             particles.push_back(
@@ -45,7 +43,6 @@ int main() {
         }
     }
 
-    // ===== Grille =====
     int nx = 100, ny = 100;
     double L = 300.0;
     double cellSize = L / nx;
@@ -62,10 +59,8 @@ int main() {
         }
     }
 
-    // ===== Forces =====
     std::vector<Vector> Fo(particles.size(), Vector(0,0,0));
 
-    // ===== Simulation =====
     double t = 0;
     int step = 0;
 
@@ -73,7 +68,7 @@ int main() {
 
         stromer(particles, Fo, grid, rc, cellSize, nx, ny);
 
-        // ===== Export VTK =====
+        if (step % 10 == 0) {
         std::ofstream file("out_" + std::to_string(step) + ".vtk");
 
         file << "# vtk DataFile Version 3.0\n";
@@ -94,8 +89,20 @@ int main() {
             file << "1 " << i << "\n";
         }
 
-        file.close();
+        file << "POINT_DATA " << particles.size() << "\n";
+        file << "SCALARS velocity float 1\n";
+        file << "LOOKUP_TABLE default\n";
 
+        for (auto& p : particles) {
+            double vx = p.getVitesse()[0];
+            double vy = p.getVitesse()[1];
+
+            double v = sqrt(vx*vx + vy*vy);
+
+            file << v << "\n";
+        }
+        file.close();
+    }
         t += dt;
         step++;
 
