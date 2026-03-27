@@ -63,13 +63,13 @@ int main() {
 
     double t = 0;
     int step = 0;
-
+    std::vector<int> savedSteps;
     while (t < tend) {
 
         stromer(particles, Fo, grid, rc, cellSize, nx, ny);
 
         if (step % 10 == 0) {
-        std::ofstream file("out_" + std::to_string(step) + ".vtk");
+        std::ofstream file("demo/out_" + std::to_string(step) + ".vtk");
 
         file << "# vtk DataFile Version 3.0\n";
         file << "Particles\n";
@@ -109,6 +109,18 @@ int main() {
         if (step % 100 == 0)
             std::cout << "t = " << t << std::endl;
     }
+
+    std::ofstream series("demo/out.vtk.series");
+
+    series << "{ \"file-series-version\" : \"1.0\", \"files\" : [\n";
+    for (size_t i = 0; i < savedSteps.size(); i++) {
+        series << "  { \"name\" : \"out_" << savedSteps[i] << ".vtk\", \"time\" : " << savedSteps[i] << " }";
+        if (i != savedSteps.size() - 1)
+            series << ",";
+        series << "\n";
+    }
+    series << "]}\n";
+    series.close();
 
     std::cout << "Simulation terminee !" << std::endl;
 
