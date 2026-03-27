@@ -1,3 +1,0 @@
-/user/1/jmeilim/Downloads/cpp/cmake-build-debug/CMakeFiles/cpp.dir
-/user/1/jmeilim/Downloads/cpp/cmake-build-debug/CMakeFiles/edit_cache.dir
-/user/1/jmeilim/Downloads/cpp/cmake-build-debug/CMakeFiles/rebuild_cache.dir

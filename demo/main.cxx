@@ -85,7 +85,7 @@ int main() {
 
         file << "VERTICES " << particles.size() << " " << 2 * particles.size() << "\n";
 
-        for (int i = 0; i < particles.size(); i++) {
+        for (int i = 0; i < (int) particles.size(); i++) {
             file << "1 " << i << "\n";
         }
 
