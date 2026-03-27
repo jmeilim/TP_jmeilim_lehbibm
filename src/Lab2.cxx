@@ -20,15 +20,15 @@ Vector computeForce(const Particle& p,
  * 
  * @param particleList liste des particules 
  * @param Fo  Fo vecteur des forces précédentes
+ * @param grid maillage de l'espace
+ * @param rc rayon de coupure
+ * @param cellSize taille des cellules du maillage
+ * @param nx nombre de cellules en x
+ * @param ny nombre de cellules en y
+ * 
  */
 
-void stromer(std::vector<Particle>& particleList,
-             std::vector<Vector>& Fo,
-             std::vector<Cellule>& grid,
-             double rc,
-             double cellSize,
-             int nx,
-             int ny) {
+void stromer(std::vector<Particle>& particleList,std::vector<Vector>& Fo,std::vector<Cellule>& grid,double rc,double cellSize,int nx,int ny) {
 
     double dt = 0.001;
     int N = particleList.size();
@@ -40,9 +40,6 @@ void stromer(std::vector<Particle>& particleList,
     for (int i = 0; i < N; i++)
         F[i] = computeForce(particleList[i], particleList, rc, grid, cellSize, nx, ny);
 
-    double t = 0;
-
-    
 
     for (int i = 0; i < N; i++) {
         double m = particleList[i].getMasse();
@@ -79,15 +76,15 @@ void stromer(std::vector<Particle>& particleList,
  * 
  * @param p particule cible
  * @param ps liste des particules
+ * @param rc rayon de coupure
+ * @param grid maillage de l'espace
+ * @param cellSize taille des cellules du maillage
+ * @param nx nombre de cellules en x
+ * @param ny nombre de cellules en y
  * @return Vector force résultante
+ * 
  */
-Vector computeForce(const Particle& p,
-                    std::vector<Particle>& ps,
-                    double rc,
-                    std::vector<Cellule>& grid,
-                    double cellSize,
-                    int nx,
-                    int ny) {
+Vector computeForce(const Particle& p,std::vector<Particle>& ps,double rc,std::vector<Cellule>& grid,double cellSize,int nx,int ny) {
 
     Vector F(0.0, 0.0, 0.0);
 

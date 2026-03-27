@@ -7,6 +7,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <iostream>
+#include <vector>
 
 double **initialization(int);
 double *fill_vectors(double *, int);
