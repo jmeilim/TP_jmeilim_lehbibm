@@ -23,6 +23,8 @@ public:
     
     Univers(double e, double s, int dimension, double l, double rcut,std::vector< Cellule* > cellules )
         : eps(e), sig(s), dim(dimension), ld(l), rc(rcut) , cellules(cellules) {}
+    Univers(double e, double s, int dimension, double l, double rcut)
+    : eps(e), sig(s), dim(dimension), ld(l), rc(rcut), cellules() {}
 
     
 };
