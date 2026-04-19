@@ -4,6 +4,7 @@
 #include "../include/Lab3.hxx"
 #include "../include/Lab2.hxx"
 #include "../src/Lab3.cxx"
+#include <gtest/gtest.h>
 
 
 
