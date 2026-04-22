@@ -5,6 +5,8 @@
 #include <vector>
 #include "../include/Lab2.hxx"
 #include "../include/Lab4.hxx"
+#include <gtest/gtest.h>
+
 
 int main() {
 
