@@ -69,7 +69,7 @@ int main() {
         stromer(particles, Fo, grid, rc, cellSize, nx, ny);
 
         if (step % 10 == 0) {
-        std::ofstream file("demo/out_" + std::to_string(step) + ".vtk");
+        std::ofstream file("../demo/out_" + std::to_string(step) + ".vtk");
 
         file << "# vtk DataFile Version 3.0\n";
         file << "Particles\n";
@@ -102,6 +102,7 @@ int main() {
             file << v << "\n";
         }
         file.close();
+        savedSteps.push_back(step);
     }
         t += dt;
         step++;
@@ -110,7 +111,7 @@ int main() {
             std::cout << "t = " << t << std::endl;
     }
 
-    std::ofstream series("demo/out.vtk.series");
+    std::ofstream series("../demo/out.vtk.series");
 
     series << "{ \"file-series-version\" : \"1.0\", \"files\" : [\n";
     for (size_t i = 0; i < savedSteps.size(); i++) {
