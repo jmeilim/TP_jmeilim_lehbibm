@@ -23,6 +23,7 @@ class Particle {
     int id;           ///< identifiant unique
     Vector force;     ///< force appliquée
     std::string cat;  ///< catégorie
+    bool alive ;
 
     /**
      * @brief Constructeur de la particule
@@ -35,7 +36,7 @@ class Particle {
      * @param cat catégorie de la particule
      */   
     public :Particle ( Vector position ,Vector vitesse, double masse, int id ,   Vector force  ,  std::string cat  )
-        : position(position) , vitesse(vitesse), masse (masse) , id(id) ,force(force) ,cat(cat) {}
+        : position(position) , vitesse(vitesse), masse (masse) , id(id) ,force(force) ,cat(cat) ,alive(true) {}
 
 
     public :
@@ -66,6 +67,9 @@ class Particle {
     
     /// @brief Retourne la catégorie
     std::string getCat() const { return cat; }
+
+    bool isAlive() const { return alive; }
+    void setAlive(bool a) { alive = a; }
     
 };
 
@@ -82,4 +86,5 @@ void stromer(std::vector<Particle>& particleList,
              double rc,
              double cellSize,
              int nx,
-             int ny) ;
+             int ny
+           ,double dt ) ;

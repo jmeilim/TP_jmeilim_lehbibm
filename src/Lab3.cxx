@@ -11,7 +11,7 @@
  * @brief classe représente l'univers contenant toutes les particules
  * 
  */
-class Univers {
+class Univer {
 
 private:
 
@@ -25,7 +25,7 @@ public:
      * @brief Constructeur de Univers
      * @param dimension dimension de l'espace
      */
-    Univers(int dimension) : dimension(dimension) {}
+    Univer(int dimension) : dimension(dimension) {}
 
 
     /**

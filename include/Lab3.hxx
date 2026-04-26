@@ -9,6 +9,7 @@ class Vector {
     double x , y , z ; 
     public :
     Vector( double x , double y , double z ): x(x) , y(y), z(z) {}
+    Vector( double x , double y ): x(x) , y(y) {}
     double getX() const { return x ;}
     double getY() const { return y ;} 
     double getZ() const { return z ;} 

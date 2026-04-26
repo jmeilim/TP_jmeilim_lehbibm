@@ -2,6 +2,7 @@
 
 #include <vector>
 #include "Lab2.hxx"
+#include <cmath>
 #include "Lab3.hxx"
 
 /**
