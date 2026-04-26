@@ -12,40 +12,43 @@ int main() {
     double d = pow(2.0, 1.0/6.0) * sigma;
 
     double rc = 2.5 * sigma;
-    double dt = 0.001;
-    double tend = 2;
+    double dt = 0.00005;
+    double tend = 7;
 
     std::vector<Particle> particles;
 
+    double marginX = 30.0;
+    double marginY = 30.0;
     for (int i = 0; i < 160; i++) {
         for (int j = 0; j < 40; j++) {
-
-            Vector pos(i * d, j * d, 0);
+            Vector pos(marginX + i * d, marginY + j * d, 0);  
             Vector vel(0, 0, 0);
-
             particles.push_back(
                 Particle(pos, vel, 1.0, particles.size(), Vector(0,0,0), "rect")
             );
         }
     }
 
-    double centerX = (160 * d) / 2.0;
+    double centerX = marginX + (160 * d) / 2.0; 
     double squareWidth = 40 * d;
+    double rectHeight = 40 * d;
+    double gap = 6.0;
+    double squareStartY = marginY + rectHeight + gap;  
     for (int i = 0; i < 40; i++) {
         for (int j = 0; j < 40; j++) {
-
-            Vector pos(centerX - squareWidth / 2 + i * d, 47 + j * d, 0);
+            Vector pos(centerX - squareWidth / 2 + i * d, squareStartY + j * d, 0);
             Vector vel(0, -10, 0);
-
             particles.push_back(
                 Particle(pos, vel, 1.0, particles.size(), Vector(0,0,0), "square")
             );
         }
     }
 
-    int nx = 100, ny = 100;
-    double L = 300.0;
-    double cellSize = L / nx;
+    double Lx = 160 * d + 2 * marginX;            
+    double Ly = 40 * d + 40 * d + gap + 2 * marginY; 
+    int nx = (int)(Lx / rc);
+    int ny = (int)(Ly / rc);
+    double cellSize = rc;
 
     std::vector<Cellule> grid(nx * ny);
 
@@ -56,19 +59,22 @@ int main() {
                 (j + 0.5) * cellSize,
                 0
             );
-        }
-    }
-
+        }}
     std::vector<Vector> Fo(particles.size(), Vector(0,0,0));
 
     double t = 0;
     int step = 0;
     std::vector<int> savedSteps;
+
+    updateCells(grid, particles, cellSize, nx, ny);
+    for (int i = 0; i < (int)particles.size(); i++)
+        Fo[i] = computeForce(particles[i], particles, rc, grid, cellSize, nx, ny);
+
     while (t < tend) {
 
-        stromer(particles, Fo, grid, rc, cellSize, nx, ny);
+        stromer(particles, Fo, grid, rc, cellSize, nx, ny,dt);
 
-        if (step % 10 == 0) {
+        if (step % 500 == 0) {
         std::ofstream file("../demo/out_" + std::to_string(step) + ".vtk");
 
         file << "# vtk DataFile Version 3.0\n";
@@ -107,7 +113,7 @@ int main() {
         t += dt;
         step++;
 
-        if (step % 100 == 0)
+        if (step % 1000 == 0)
             std::cout << "t = " << t << std::endl;
     }
 
