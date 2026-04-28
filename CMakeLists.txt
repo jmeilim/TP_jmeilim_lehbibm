@@ -15,17 +15,22 @@ project(Simulation)
 set(CMAKE_CXX_STANDARD 17)
 
 include_directories(include)
-add_compile_options(-Wall -Wextra)
+add_compile_options(-Wall -Wextra -O2)
 add_executable(simulation
     demo/main.cxx
-    src/Lab2.cxx
-    src/Lab3.cxx
-    src/Lab4.cxx
+
 )
+
 add_library(core
-    src/Lab2.cxx
-    src/Lab4.cxx
+    src/Vector.cxx
+    src/Particle.cxx
+    src/Forces.cxx
+    src/Stromer.cxx
+    src/Univers.cxx
 )
+
+target_link_libraries(simulation core)
+
 add_executable(Test1 test/Test1.cxx)
 target_link_libraries(Test1 core GTest::gtest_main)
 

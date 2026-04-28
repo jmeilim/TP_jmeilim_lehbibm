@@ -3,8 +3,11 @@
 #include <cmath>
 #include <iostream>
 
-#include "../include/Lab2.hxx"
-#include "../include/Lab4.hxx"
+#include "../include/Particle.hxx"
+#include "../include/Vector.hxx"
+#include "../include/Cellule.hxx"
+#include "../include/Stromer.hxx"
+#include "../include/Forces.hxx"
 
 int main() {
 
@@ -12,7 +15,7 @@ int main() {
     double d = pow(2.0, 1.0/6.0) * sigma;
 
     double rc = 2.5 * sigma;
-    double dt = 0.00005;
+    double dt = 0.0005;
     double tend = 7;
 
     std::vector<Particle> particles;
@@ -74,7 +77,7 @@ int main() {
 
         stromer(particles, Fo, grid, rc, cellSize, nx, ny,dt);
 
-        if (step % 500 == 0) {
+        if (step % 10 == 0) {
         std::ofstream file("../demo/out_" + std::to_string(step) + ".vtk");
 
         file << "# vtk DataFile Version 3.0\n";
