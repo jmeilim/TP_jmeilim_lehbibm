@@ -16,6 +16,21 @@ void Vector::setY( double y ) { this->y = y ;}
 void Vector::setZ( double z ) { this->z = z ;}
 Vector Vector::operator+( const Vector& v ) const  { return Vector( x+ v.x , y + v.y , z + v.z  ) ;}
 Vector Vector::operator-( const Vector& v ) const  { return Vector( x - v.x , y - v.y , z - v.z  ) ;}
+Vector Vector::operator*( double a) const  { return Vector( x* a , y * a , z * a ) ;}
+Vector& Vector::operator+=(const Vector& v)   { 
+    x += v.x ;
+    y += v.y ;
+    z += v.z ;
+    return *this;
+}
+
+Vector& Vector::operator-=(const Vector& v)   { 
+    x -= v.x ;
+    y -= v.y ;
+    z -= v.z ;
+    return *this;
+}
+
 double& Vector::operator[](int i)
 {
     if(i==0) return x;

@@ -1,5 +1,6 @@
 #include "../include/Forces.hxx"
 #include "../include/Vector.hxx"
+#include "../include/Univers.hxx"
 #include <cmath>
 /**
  * @brief Calcule la force gravitationnelle sur une particule
