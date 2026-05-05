@@ -27,6 +27,7 @@ add_library(core
     src/Forces.cxx
     src/Stromer.cxx
     src/Univers.cxx
+    src/Boundary.cxx
 )
 
 target_link_libraries(simulation core)
