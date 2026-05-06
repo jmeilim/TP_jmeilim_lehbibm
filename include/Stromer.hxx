@@ -5,4 +5,4 @@
 
 void stromer(Univers& U,
             std::vector<Vector>& Fo,
-            double dt ) ;
+            double dt, int iter  ) ;

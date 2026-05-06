@@ -8,8 +8,14 @@ bool conditionLimites(Particle& p, double Lx, double Ly) {
 
     double x = pos.getX();
     double y = pos.getY();
-    if (x < 0)  pos.setX(x + Lx);
-    if (x > Lx) pos.setX(x - Lx);
+    if (x < 0) {
+        pos.setX(-x);
+        vel.setX(std::abs(vel.getX()));  
+    }
+    if (x > Lx) {
+        pos.setX(2*Lx - x);
+        vel.setX(-std::abs(vel.getX())); 
+    }
 
     if (y > Ly) {
         p.setAlive(false);
@@ -17,7 +23,7 @@ bool conditionLimites(Particle& p, double Lx, double Ly) {
     }
     if (y < 0) {
         pos.setY(1e-3);
-        vel.setY(std::abs(vel.getY())); // on s'assure qu'elle remonte
+        vel.setY(std::abs(vel.getY())); 
     }
     return true;
 }

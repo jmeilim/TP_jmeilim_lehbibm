@@ -51,11 +51,17 @@ void Univers::updateCells() {
     for (auto& c : grid)
         c.particles.clear();
 
-    for (int i = 0; i < (int )particles.size(); i++) {
-        int cx = particles[i].getPosition()[0] / cellSize;
-        int cy = particles[i].getPosition()[1] / cellSize;
-        if (cx < 0 || cy < 0 || cx >= nx || cy >= ny) continue;
+    for (int i = 0; i < (int)particles.size(); i++) {
+        if (!particles[i].isAlive()) continue;
+
+        int cx = (int)(particles[i].getPosition()[0] / cellSize);
+        int cy = (int)(particles[i].getPosition()[1] / cellSize);
+
+        if (cx < 0 || cx >= nx || cy < 0 || cy >= ny) continue;
+
         int id = cx * ny + cy;
         grid[id].particles.push_back(i);
     }
+
 }
+

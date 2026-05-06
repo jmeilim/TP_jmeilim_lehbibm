@@ -12,9 +12,11 @@ Vector computeForce(const Particle& p,
                     double cellSize,
                     int nx,
                     int ny);
-Vector forceReflexivePotentiel(const Particle& p,
-                                double Lx, double Ly,
-                                double epsilon, double sigma);
+Vector forceMurBas(const Particle& p,
+                   double epsilon,
+                   double sigma);
 
 
 inline double U(double r, double eps , double sig );
+
+Vector computeGravity(const Particle& p, double G);

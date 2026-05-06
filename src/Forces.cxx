@@ -1,6 +1,7 @@
 #include "../include/Forces.hxx"
 #include "../include/Vector.hxx"
 #include "../include/Univers.hxx"
+#include "../include/Particle.hxx"
 #include <cmath>
 /**
  * @brief Calcule la force gravitationnelle sur une particule
@@ -30,104 +31,58 @@ Vector computeForce(const Particle& p,std::vector<Particle>& ps,double rc,std::v
             int id = vx * ny + vy;
 
             for (int k : grid[id].particles) {
+
+                if (!ps[k].isAlive()) continue;
                 if (ps[k].getId() == p.getId()) continue;
 
-                double dxp = ps[k].getPosition()[0] - p.getPosition()[0];
-                double dyp = ps[k].getPosition()[1] - p.getPosition()[1];
-                double r2p = dxp*dxp + dyp*dyp;
+                double dx = ps[k].getPosition()[0] - p.getPosition()[0];
+                double dy = ps[k].getPosition()[1] - p.getPosition()[1];
 
+                double r2 = dx*dx + dy*dy;
 
-                if (r2p < 1e-6) continue;
-                double r = sqrt(r2p);
-                if (r > rc) continue;
+                if (r2 > rc*rc) continue;
+                if (r2 < 0.25) r2 = 0.25;
 
-      
-                double sr  = 1 / r;
+                double r = sqrt(r2);
+
+                double sr = 1.0 / r;
                 double sr2 = sr * sr;
                 double sr6 = sr2 * sr2 * sr2;
 
+                double f = 24.0 * (1.0 / r2) * sr6 * (1.0 - 2.0 * sr6);
 
-                double f = 24.0 * 5 / r2p * sr6 * (1.0 - 2.0 * sr6);
-
-                F[0] += f * dxp;
-                F[1] += f * dyp;
+                F[0] += f * dx;
+                F[1] += f * dy;
             }
-        }
+        }    }
+    if (p.getCat() == "rect") {
+    
+    F += forceMurBas(p, 1, 1);
     }
+    F += computeGravity(p, -12);
+
 
     return F;
 }
-
-Vector forceReflexivePotentiel(const Particle& p,
-                                double Lx, double Ly,
-                                double epsilon, double sigma) {
+Vector computeGravity(const Particle& p, double G) {
+    return Vector(0.0, p.getMasse() * G);
+}
+Vector forceMurBas(const Particle& p, double epsilon, double sigma) {
     Vector F(0,0,0);
-    double rcut = pow(2.0, 1.0/6.0) * sigma;
-    double x = p.getPosition()[0];
     double y = p.getPosition()[1];
-    double distances[4] = {x, Lx - x, y, Ly - y};
-    int signes[4] = {1, -1, 1, -1};
-    int composantes[4] = {0, 0, 1, 1};
+    double rcut = pow(2.0, 1.0/6.0) * sigma;
 
-    for (int k = 0; k < 4; k++) {
-        double r = distances[k];
-        if (r <= 0 || r >= rcut) continue;
-        double sr  = sigma / (2.0 * r);
-        double sr6 = sr * sr * sr * sr * sr * sr;
-        double f   = -24.0 * epsilon * (1.0 / (2.0 * r)) * sr6 * (1.0 - 2.0 * sr6);
-        F[composantes[k]] += signes[k] * f;
-    }
 
+    if (y <= 0) y = 1e-3 * sigma;
+    if (y >= rcut) return F;
+
+    double sr  = sigma / (2.0 * y);
+    double sr6 = sr*sr*sr*sr*sr*sr;
+    double f   = -24.0 * epsilon * (1.0 / (2.0 * y)) * sr6 * (1.0 - 2.0 * sr6);
+    F[1] += f;
     return F;
 }
 
-
-
-// bool conditionLimites(Particle& p, double Lx, double Ly, BoundaryType type) {
-
-//     Vector& pos = p.getPosition();
-//     Vector& vel = p.getVitesse();
-//     double x = pos.getX();
-//     double y = pos.getY();
-//     if (type == REFLEXION) {
-//         if (x < 0) {
-//             pos.setX(-x);
-//             vel.setX(-vel.getX());
-//         }
-//         if (x > Lx) {
-//             pos.setX(2 * Lx - x);
-//             vel.setX(-vel.getX());
-//         }
-
-//         if (y < 0) {
-//             pos.setY(-y);
-//             vel.setY(-vel.getY());
-//         }
-//         if (y > Ly) {
-//             pos.setY(2 * Ly - y);
-//             vel.setY(-vel.getY());
-//         }
-
-//         return true;
-//     }
-
-//     else if (type == ABSORPTION) {
-
-//     if (x < 0 || x > Lx || y < 0 || y > Ly) {
-//         p.setAlive(false);
-//         return false;
-//     }
-//     }
-//     else if (type == PERIODIQUE) {
-//         if (x < 0) pos.setX(x + Lx);
-//         if (x > Lx) pos.setX(x - Lx);
-//         if (y < 0) pos.setY(y + Ly);
-//         if (y > Ly) pos.setY(y - Ly);
-//         return true;
-//     }
-
-//     return true;
-// }
 
 
 double U(double r, double eps = 1, double sig = 1){

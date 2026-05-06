@@ -2,6 +2,8 @@
 #include"../include/Stromer.hxx"
 #include "../include/Forces.hxx"
 #include "../include/Univers.hxx"
+#include "Boundary.hxx"
+#include <cmath>
 /**
  * @brief Implementation du Stromer-Algorithm
  * 
@@ -15,36 +17,63 @@
  * 
  */
 
-void stromer(Univers& u, std::vector<Vector>& Fo, double dt) {
+void stromer(Univers& u, std::vector<Vector>& Fo, double dt, int iter) {
 
-std::vector<Particle>& particleList = u.getParticles();
-std::vector<Cellule>& grid = u.getGrid();
-    int N = particleList.size();
+    auto& ps = u.getParticles();
+    int N = ps.size();
 
+   
     for (int i = 0; i < N; i++) {
-        double m = particleList[i].getMasse();
+
+        if (!ps[i].isAlive()) continue;
+
+        double m = ps[i].getMasse();
         if (m < 1e-12) m = 1e-12;
 
-        for (int d = 0; d < 2; d++) {
-            particleList[i].getPosition()[d] +=
-                dt * particleList[i].getVitesse()[d]
-                + 0.5 * dt * dt * Fo[i][d] / m;
-        }
+        ps[i].getPosition()[0] += dt * ps[i].getVitesse()[0]
+                               + 0.5 * dt * dt * Fo[i][0] / m;
+
+        ps[i].getPosition()[1] += dt * ps[i].getVitesse()[1]
+                               + 0.5 * dt * dt * Fo[i][1] / m;
+
+        // conditions limites
+        conditionLimites(ps[i], u.getLx(), u.getLy());
     }
+
 
     u.updateCells();
+
+
     std::vector<Vector> F(N, Vector(0,0,0));
-    for (int i = 0; i < N; i++){
-        F[i] = computeForce(particleList[i], particleList, u.getRc(), u.getGrid(), u.getCellSize(), u.getNx(), u.getNy());
-    }
-    
+
     for (int i = 0; i < N; i++) {
-        double m = particleList[i].getMasse();
+        if (!ps[i].isAlive()) continue;
+
+        F[i] = computeForce(
+            ps[i],
+            ps,
+            u.getRc(),
+            u.getGrid(),  
+            u.getCellSize(),
+            u.getNx(),
+            u.getNy()
+        );
+    }
+
+    for (int i = 0; i < N; i++) {
+
+        if (!ps[i].isAlive()) continue;
+
+        double m = ps[i].getMasse();
         if (m < 1e-12) m = 1e-12;
 
-        particleList[i].getVitesse() += (F[i] + Fo[i])*(0.5*dt/m);
+        ps[i].getVitesse()[0] += 0.5 * dt * (Fo[i][0] + F[i][0]) / m;
+        ps[i].getVitesse()[1] += 0.5 * dt * (Fo[i][1] + F[i][1]) / m;
     }
-    Fo = F;
-}
 
+
+    Fo = F;
+
+    
+}
 
