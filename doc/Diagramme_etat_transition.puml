@@ -1,0 +1,23 @@
+@startuml
+[*] --> NonInitialisee
+
+NonInitialisee --> Initialisee : initialiserGrille() / addParticle()
+
+Initialisee --> EnCours : lancer(dt)
+
+state EnCours {
+  [*] --> CalcPositions
+  CalcPositions --> CalcForces
+  CalcForces --> CalcVitesses
+  CalcVitesses --> CondLimites
+  CondLimites --> CalcPositions : [iter%1000 != 0]
+  CondLimites --> Rescaling    : [iter%1000 = 0]
+  Rescaling   --> CalcPositions
+}
+
+EnCours --> Terminee  : [t >= t_max] / exporter()
+EnCours --> EnErreur  : exception levée
+
+Terminee --> [*]
+EnErreur --> [*]
+@enduml

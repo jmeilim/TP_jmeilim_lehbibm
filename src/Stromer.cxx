@@ -74,6 +74,32 @@ void stromer(Univers& u, std::vector<Vector>& Fo, double dt, int iter) {
 
     Fo = F;
 
-    
+    if (iter % 1000 == 0) {
+        double Ec = 0.0;
+        int N_rect = 0;
+
+        for (const auto& p : ps) {
+            if (!p.isAlive()) continue;
+            if (p.getCat() != "rect") continue;
+            double vx = p.getVitesse()[0];
+            double vy = p.getVitesse()[1];
+            Ec += 0.5 * p.getMasse() * (vx*vx + vy*vy);
+            N_rect++;
+        }
+
+        double Ec_target = 0.005 * N_rect;
+
+        if (Ec > 1e-12) {
+            double beta = std::sqrt(Ec_target / Ec);
+     
+            for (auto& p : ps) {
+                if (!p.isAlive()) continue;
+                if (p.getCat() != "rect") continue;
+                p.getVitesse()[0] *= beta;
+                p.getVitesse()[1] *= beta;
+            }
+  
+        }
+    }
 }
 

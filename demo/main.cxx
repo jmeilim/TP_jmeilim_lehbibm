@@ -19,12 +19,13 @@ int main() {
 
     double rc   = 2.5 * sigma;
     double dt   = 0.0005;
-    double tend = 10.5;
+    double tend = 29.5;
 
     double lx = 250.0;  
     double ly = 180.0;
 
-    Univers univer(epsilon, sigma, 2, lx, ly, rc);
+    int dim = 2;
+    Univers univer(epsilon, sigma, dim, lx, ly, rc);
 
   
     int Nx = (int)(lx / d);
@@ -88,11 +89,8 @@ int main() {
     double t    = 0.0;
     int    step = 0;
     std::vector<int> savedSteps;
-
     while (t < tend) {
-
         stromer(univer, Fo, dt, step);
-
         
         if (step % 100 == 0) {
 
