@@ -1,0 +1,5 @@
+if(EXISTS "/home/jmeili-m/2A/CPP/TP_jmeilim_lehbibm/build/test/tests[1]_tests.cmake")
+  include("/home/jmeili-m/2A/CPP/TP_jmeilim_lehbibm/build/test/tests[1]_tests.cmake")
+else()
+  add_test(tests_NOT_BUILT tests_NOT_BUILT)
+endif()

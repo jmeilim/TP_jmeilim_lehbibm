@@ -1,0 +1,278 @@
+{
+  "tests": 46,
+  "name": "AllTests",
+  "testsuites": [
+    {
+      "name": "AbsorptionTest",
+      "tests": 6,
+      "testsuite": [
+        {
+          "name": "HautAbsorbe",
+          "file": "\/home\/jmeili-m\/2A\/CPP\/TP_jmeilim_lehbibm\/test\/absorption.cxx",
+          "line": 8
+        },
+        {
+          "name": "BasAbsorbe",
+          "file": "\/home\/jmeili-m\/2A\/CPP\/TP_jmeilim_lehbibm\/test\/absorption.cxx",
+          "line": 15
+        },
+        {
+          "name": "GaucheAbsorbe",
+          "file": "\/home\/jmeili-m\/2A\/CPP\/TP_jmeilim_lehbibm\/test\/absorption.cxx",
+          "line": 22
+        },
+        {
+          "name": "DroiteAbsorbe",
+          "file": "\/home\/jmeili-m\/2A\/CPP\/TP_jmeilim_lehbibm\/test\/absorption.cxx",
+          "line": 29
+        },
+        {
+          "name": "InterieurVivant",
+          "file": "\/home\/jmeili-m\/2A\/CPP\/TP_jmeilim_lehbibm\/test\/absorption.cxx",
+          "line": 36
+        },
+        {
+          "name": "CoinHautDroiteAbsorbe",
+          "file": "\/home\/jmeili-m\/2A\/CPP\/TP_jmeilim_lehbibm\/test\/absorption.cxx",
+          "line": 43
+        }
+      ]
+    },
+    {
+      "name": "ConditionLimitesTest",
+      "tests": 6,
+      "testsuite": [
+        {
+          "name": "AbsorptionHaut",
+          "file": "\/home\/jmeili-m\/2A\/CPP\/TP_jmeilim_lehbibm\/test\/Climites.cxx",
+          "line": 6
+        },
+        {
+          "name": "ReflexionBas",
+          "file": "\/home\/jmeili-m\/2A\/CPP\/TP_jmeilim_lehbibm\/test\/Climites.cxx",
+          "line": 14
+        },
+        {
+          "name": "ReflexionGauche",
+          "file": "\/home\/jmeili-m\/2A\/CPP\/TP_jmeilim_lehbibm\/test\/Climites.cxx",
+          "line": 22
+        },
+        {
+          "name": "ReflexionDroite",
+          "file": "\/home\/jmeili-m\/2A\/CPP\/TP_jmeilim_lehbibm\/test\/Climites.cxx",
+          "line": 30
+        },
+        {
+          "name": "InterieurInchange",
+          "file": "\/home\/jmeili-m\/2A\/CPP\/TP_jmeilim_lehbibm\/test\/Climites.cxx",
+          "line": 38
+        },
+        {
+          "name": "CoinHautDroiteAbsorbe",
+          "file": "\/home\/jmeili-m\/2A\/CPP\/TP_jmeilim_lehbibm\/test\/Climites.cxx",
+          "line": 48
+        }
+      ]
+    },
+    {
+      "name": "ForcesTest",
+      "tests": 9,
+      "testsuite": [
+        {
+          "name": "ForceNulleSiSeule",
+          "file": "\/home\/jmeili-m\/2A\/CPP\/TP_jmeilim_lehbibm\/test\/Forces.cxx",
+          "line": 11
+        },
+        {
+          "name": "ForceRepulsiveProche",
+          "file": "\/home\/jmeili-m\/2A\/CPP\/TP_jmeilim_lehbibm\/test\/Forces.cxx",
+          "line": 25
+        },
+        {
+          "name": "ForceSymetrique",
+          "file": "\/home\/jmeili-m\/2A\/CPP\/TP_jmeilim_lehbibm\/test\/Forces.cxx",
+          "line": 41
+        },
+        {
+          "name": "ForceNulleAuDela_rc",
+          "file": "\/home\/jmeili-m\/2A\/CPP\/TP_jmeilim_lehbibm\/test\/Forces.cxx",
+          "line": 64
+        },
+        {
+          "name": "ForceAxialeUniquement",
+          "file": "\/home\/jmeili-m\/2A\/CPP\/TP_jmeilim_lehbibm\/test\/Forces.cxx",
+          "line": 80
+        },
+        {
+          "name": "GraviteDirection",
+          "file": "\/home\/jmeili-m\/2A\/CPP\/TP_jmeilim_lehbibm\/test\/Forces.cxx",
+          "line": 98
+        },
+        {
+          "name": "GraviteProportionnelleMasse",
+          "file": "\/home\/jmeili-m\/2A\/CPP\/TP_jmeilim_lehbibm\/test\/Forces.cxx",
+          "line": 106
+        },
+        {
+          "name": "GraviteNulleAvecG0",
+          "file": "\/home\/jmeili-m\/2A\/CPP\/TP_jmeilim_lehbibm\/test\/Forces.cxx",
+          "line": 114
+        },
+        {
+          "name": "GraviteComposanteXNulle",
+          "file": "\/home\/jmeili-m\/2A\/CPP\/TP_jmeilim_lehbibm\/test\/Forces.cxx",
+          "line": 121
+        }
+      ]
+    },
+    {
+      "name": "PeriodiqueTest",
+      "tests": 6,
+      "testsuite": [
+        {
+          "name": "GaucheTeleporte",
+          "file": "\/home\/jmeili-m\/2A\/CPP\/TP_jmeilim_lehbibm\/test\/periodique.cxx",
+          "line": 8
+        },
+        {
+          "name": "DroiteTeleporte",
+          "file": "\/home\/jmeili-m\/2A\/CPP\/TP_jmeilim_lehbibm\/test\/periodique.cxx",
+          "line": 16
+        },
+        {
+          "name": "BasTeleporte",
+          "file": "\/home\/jmeili-m\/2A\/CPP\/TP_jmeilim_lehbibm\/test\/periodique.cxx",
+          "line": 24
+        },
+        {
+          "name": "HautTeleporte",
+          "file": "\/home\/jmeili-m\/2A\/CPP\/TP_jmeilim_lehbibm\/test\/periodique.cxx",
+          "line": 32
+        },
+        {
+          "name": "CoinBasGauche",
+          "file": "\/home\/jmeili-m\/2A\/CPP\/TP_jmeilim_lehbibm\/test\/periodique.cxx",
+          "line": 40
+        },
+        {
+          "name": "InterieurInchange",
+          "file": "\/home\/jmeili-m\/2A\/CPP\/TP_jmeilim_lehbibm\/test\/periodique.cxx",
+          "line": 48
+        }
+      ]
+    },
+    {
+      "name": "ReflexionTest",
+      "tests": 6,
+      "testsuite": [
+        {
+          "name": "ReflexionBas",
+          "file": "\/home\/jmeili-m\/2A\/CPP\/TP_jmeilim_lehbibm\/test\/reflexion.cxx",
+          "line": 8
+        },
+        {
+          "name": "ReflexionHaut",
+          "file": "\/home\/jmeili-m\/2A\/CPP\/TP_jmeilim_lehbibm\/test\/reflexion.cxx",
+          "line": 16
+        },
+        {
+          "name": "ReflexionGauche",
+          "file": "\/home\/jmeili-m\/2A\/CPP\/TP_jmeilim_lehbibm\/test\/reflexion.cxx",
+          "line": 24
+        },
+        {
+          "name": "ReflexionDroite",
+          "file": "\/home\/jmeili-m\/2A\/CPP\/TP_jmeilim_lehbibm\/test\/reflexion.cxx",
+          "line": 32
+        },
+        {
+          "name": "CoinBasGauche",
+          "file": "\/home\/jmeili-m\/2A\/CPP\/TP_jmeilim_lehbibm\/test\/reflexion.cxx",
+          "line": 40
+        },
+        {
+          "name": "InterieurInchange",
+          "file": "\/home\/jmeili-m\/2A\/CPP\/TP_jmeilim_lehbibm\/test\/reflexion.cxx",
+          "line": 50
+        }
+      ]
+    },
+    {
+      "name": "StromerTest",
+      "tests": 6,
+      "testsuite": [
+        {
+          "name": "UneIterationSansNaN",
+          "file": "\/home\/jmeili-m\/2A\/CPP\/TP_jmeilim_lehbibm\/test\/Stromer.cxx",
+          "line": 23
+        },
+        {
+          "name": "PositionChangeApresIterations",
+          "file": "\/home\/jmeili-m\/2A\/CPP\/TP_jmeilim_lehbibm\/test\/Stromer.cxx",
+          "line": 37
+        },
+        {
+          "name": "VitesseChangeApresIteration",
+          "file": "\/home\/jmeili-m\/2A\/CPP\/TP_jmeilim_lehbibm\/test\/Stromer.cxx",
+          "line": 50
+        },
+        {
+          "name": "ConservationEnergieCinetique",
+          "file": "\/home\/jmeili-m\/2A\/CPP\/TP_jmeilim_lehbibm\/test\/Stromer.cxx",
+          "line": 60
+        },
+        {
+          "name": "ThermostatApplique",
+          "file": "\/home\/jmeili-m\/2A\/CPP\/TP_jmeilim_lehbibm\/test\/Stromer.cxx",
+          "line": 80
+        },
+        {
+          "name": "ParticuleAbsorbeeResteMorte",
+          "file": "\/home\/jmeili-m\/2A\/CPP\/TP_jmeilim_lehbibm\/test\/Stromer.cxx",
+          "line": 90
+        }
+      ]
+    },
+    {
+      "name": "UniversTest",
+      "tests": 7,
+      "testsuite": [
+        {
+          "name": "ConstructeurValide",
+          "file": "\/home\/jmeili-m\/2A\/CPP\/TP_jmeilim_lehbibm\/test\/Univers.cxx",
+          "line": 7
+        },
+        {
+          "name": "GrilleInitialisee",
+          "file": "\/home\/jmeili-m\/2A\/CPP\/TP_jmeilim_lehbibm\/test\/Univers.cxx",
+          "line": 17
+        },
+        {
+          "name": "AddParticle",
+          "file": "\/home\/jmeili-m\/2A\/CPP\/TP_jmeilim_lehbibm\/test\/Univers.cxx",
+          "line": 24
+        },
+        {
+          "name": "AddMultipleParticles",
+          "file": "\/home\/jmeili-m\/2A\/CPP\/TP_jmeilim_lehbibm\/test\/Univers.cxx",
+          "line": 31
+        },
+        {
+          "name": "UpdateCellsRempliGrille",
+          "file": "\/home\/jmeili-m\/2A\/CPP\/TP_jmeilim_lehbibm\/test\/Univers.cxx",
+          "line": 39
+        },
+        {
+          "name": "CellSizeEgalRc",
+          "file": "\/home\/jmeili-m\/2A\/CPP\/TP_jmeilim_lehbibm\/test\/Univers.cxx",
+          "line": 50
+        },
+        {
+          "name": "ParticuleHorsDomaine",
+          "file": "\/home\/jmeili-m\/2A\/CPP\/TP_jmeilim_lehbibm\/test\/Univers.cxx",
+          "line": 55
+        }
+      ]
+    }
+  ]
+}
