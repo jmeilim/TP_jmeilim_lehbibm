@@ -6,10 +6,10 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include_directories(include)
-add_compile_options(-Wall -Wextra -O2)
+add_compile_options(-Wall -Wextra -O3)
 add_subdirectory(src)
 add_subdirectory(demo)
-
+add_subdirectory(test)
 
 find_package(Doxygen)
 if(DOXYGEN_FOUND)
