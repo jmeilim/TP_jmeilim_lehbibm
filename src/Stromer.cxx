@@ -5,17 +5,22 @@
 #include "../include/Boundary.hxx"
 #include "../include/GenereException.hxx"
 #include <cmath>
-/**
- * @brief Implementation du Stromer-Algorithm
- * 
- * @param particleList liste des particules 
- * @param Fo  Fo vecteur des forces précédentes
- * @param grid maillage de l'espace
- * @param rc rayon de coupure
- * @param cellSize taille des cellules du maillage
- * @param nx nombre de cellules en x
- * @param ny nombre de cellules en y
- * 
+
+
+ /**
+ * Implémentation de l'algorithme de Störmer-Verlet.
+ *
+ * Cet algorithme est choisi pour sa stabilité numérique et sa conservation
+ * de l'énergie sur le long terme, ce qui est essentiel pour une simulation
+ * moléculaire correcte.
+ *
+ * Ordre des étapes à chaque itération :
+ *   1. Mise à jour des positions
+ *   2. Application des conditions aux limites
+ *   3. Mise à jour de la grille
+ *   4. Calcul des nouvelles forces
+ *   5. Mise à jour des vitesses
+ *   6. Thermostat (toutes les 1000 itérations, uniquement sur "rect")
  */
 
 void stromer(Univers& u, std::vector<Vector>& Fo, double dt, int iter) {
@@ -26,11 +31,14 @@ void stromer(Univers& u, std::vector<Vector>& Fo, double dt, int iter) {
     if (dt <= 0)
         throw GenereException("dt doit être > 0");
 
-
+    // 1. Mise à jour des positions
     for (int i = 0; i < N; i++) {
 
         if (!ps[i].isAlive()) continue;
 
+
+        // protection contre une masse nulle qui causerait
+        // une division par zéro dans le calcul de l'accélération
         double m = ps[i].getMasse();
         if (m < 1e-12) m = 1e-12;
 
@@ -44,12 +52,12 @@ void stromer(Univers& u, std::vector<Vector>& Fo, double dt, int iter) {
         conditionLimites(ps[i], u.getLx(), u.getLy());
     }
 
-
+    // 2. Mise à jour de la grille après déplacement
     u.updateCells();
 
 
     std::vector<Vector> F(N, Vector(0,0,0));
-
+    // 3. Calcul des nouvelles forces
     for (int i = 0; i < N; i++) {
         if (!ps[i].isAlive()) continue;
 
@@ -63,7 +71,7 @@ void stromer(Univers& u, std::vector<Vector>& Fo, double dt, int iter) {
             u.getNy()
         );
     }
-
+    // 4. Mise à jour des vitesses
     for (int i = 0; i < N; i++) {
 
         if (!ps[i].isAlive()) continue;
@@ -75,9 +83,13 @@ void stromer(Univers& u, std::vector<Vector>& Fo, double dt, int iter) {
         ps[i].getVitesse()[1] += 0.5 * dt * (Fo[i][1] + F[i][1]) / m;
     }
 
-
+    // 5. Les nouvelles forces deviennent les anciennes pour l'itération suivante
     Fo = F;
 
+
+    // 6. Thermostat : limite la divergence de l'énergie cinétique
+    // On rescale les vitesses des "rect" toutes les 1000 itérations
+    // avec beta = sqrt(Ec_target / Ec) pour rester proche de l'énergie cible
     if (iter % 1000 == 0) {
         double Ec = 0.0;
         int N_rect = 0;

@@ -3,7 +3,11 @@
 #include "../include/GenereException.hxx"
 
 /**
- * @brief claase pour representer l'univers de simulation
+ * Construit le domaine de simulation et initialise la grille de cellules.
+ *
+ * La grille divise le domaine en cellules de taille rc.
+ * Cela permet de ne calculer les forces qu'entre particules proches
+ * (complexité O(N) au lieu de O(N²)).
  */
   
 Univers::Univers(double eps, double sig, int dimension,
@@ -55,7 +59,13 @@ void Univers::initialiserGrille() {
         }}
 }
 
-
+/**
+ * Replace chaque particule dans la bonne cellule de la grille
+ * après son déplacement — appelée à chaque itération de Störmer.
+ *
+ * Une particule hors du domaine est ignorée pour éviter
+ * un accès hors bornes dans le tableau de cellules.
+ */
 void Univers::updateCells() {
     for (auto& c : grid)
         c.particles.clear();

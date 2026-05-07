@@ -4,17 +4,13 @@
 #include "../include/Particle.hxx"
 #include <cmath>
 /**
- * @brief Calcule la force gravitationnelle sur une particule
- * 
- * @param p particule cible
- * @param ps liste des particules
- * @param rc rayon de coupure
- * @param grid maillage de l'espace
- * @param cellSize taille des cellules du maillage
- * @param nx nombre de cellules en x
- * @param ny nombre de cellules en y
- * @return Vector force résultante
- * 
+ * Calcule la force totale sur une particule :
+ *   - interactions de Lennard-Jones avec les voisines (dans rc)
+ *   - potentiel de paroi basse pour les particules "rect"
+ *   - gravité uniforme sur toutes les particules
+ *
+ * On ne parcourt que les 9 cellules voisines grâce à la grille,
+ * ce qui évite de comparer la particule avec toutes les autres.
  */
 Vector computeForce(const Particle& p,std::vector<Particle>& ps,double rc,std::vector<Cellule>& grid,double cellSize,int nx,int ny) {
 
@@ -41,8 +37,15 @@ Vector computeForce(const Particle& p,std::vector<Particle>& ps,double rc,std::v
                 double r2 = dx*dx + dy*dy;
 
                 if (r2 > rc*rc) continue;
+
+
+
+                // évite la division par zéro si deux particules
+                // se superposent exactement suite à une perturbation numérique
+                
                 if (r2 < 0.25) r2 = 0.25;
 
+                
                 double r = sqrt(r2);
 
                 double sr = 1.0 / r;
@@ -55,6 +58,8 @@ Vector computeForce(const Particle& p,std::vector<Particle>& ps,double rc,std::v
                 F[1] += f * dy;
             }
         }    }
+    
+    // potentiel de paroi LJ — empêche les particules "rect" de traverser le sol
     if (p.getCat() == "rect") {
     
     F += forceMurBas(p, 1, 1);
@@ -64,6 +69,15 @@ Vector computeForce(const Particle& p,std::vector<Particle>& ps,double rc,std::v
 
     return F;
 }
+
+
+
+/**
+ * Potentiel LJ de paroi basse.
+ * Modélise un mur réflexif via un potentiel répulsif
+ * actif uniquement sous rcut = 2^(1/6)*sigma.
+ */
+
 Vector computeGravity(const Particle& p, double G) {
     return Vector(0.0, p.getMasse() * G);
 }
@@ -73,7 +87,12 @@ Vector forceMurBas(const Particle& p, double epsilon, double sigma) {
     double rcut = pow(2.0, 1.0/6.0) * sigma;
 
 
+    // si la particule est exactement sur le mur, on évite la singularité
+    // en la plaçant à une très petite distance
     if (y <= 0) y = 1e-3 * sigma;
+
+
+    // au-delà de rcut, le potentiel LJ de paroi est négligeable
     if (y >= rcut) return F;
 
     double sr  = sigma / (2.0 * y);

@@ -15,7 +15,7 @@ find_package(Doxygen)
 if(DOXYGEN_FOUND)
  add_custom_target(doc
  COMMAND ${DOXYGEN_EXECUTABLE} ${CMAKE_SOURCE_DIR}/Doxyfile
- COMMAND ${CMAKE_COMMAND} -E chdir ${CMAKE_SOURCE_DIR}/latex make
+ COMMAND make -C ${CMAKE_SOURCE_DIR}/doc/latex
  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
  COMMENT "Generating documentation (HTML + PDF)"
  )
