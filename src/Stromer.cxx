@@ -2,7 +2,8 @@
 #include"../include/Stromer.hxx"
 #include "../include/Forces.hxx"
 #include "../include/Univers.hxx"
-#include "Boundary.hxx"
+#include "../include/Boundary.hxx"
+#include "../include/GenereException.hxx"
 #include <cmath>
 /**
  * @brief Implementation du Stromer-Algorithm
@@ -22,7 +23,10 @@ void stromer(Univers& u, std::vector<Vector>& Fo, double dt, int iter) {
     auto& ps = u.getParticles();
     int N = ps.size();
 
-   
+    if (dt <= 0)
+        throw GenereException("dt doit être > 0");
+
+
     for (int i = 0; i < N; i++) {
 
         if (!ps[i].isAlive()) continue;
@@ -86,6 +90,12 @@ void stromer(Univers& u, std::vector<Vector>& Fo, double dt, int iter) {
             Ec += 0.5 * p.getMasse() * (vx*vx + vy*vy);
             N_rect++;
         }
+
+        if (N_rect == 0)
+            throw GenereException("Aucune particule rect pour le thermostat");
+    
+        if (Ec < 1e-12)
+            throw GenereException("Energie cinétique nulle, beta impossible");
 
         double Ec_target = 0.005 * N_rect;
 

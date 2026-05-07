@@ -1,5 +1,7 @@
 #include <cmath>
 #include "../include/Univers.hxx"
+#include "../include/GenereException.hxx"
+
 /**
  * @brief claase pour representer l'univers de simulation
  */
@@ -7,7 +9,14 @@
 Univers::Univers(double eps, double sig, int dimension,
                 double lx, double ly, double rc)
                 : eps(eps), sig(sig), dim(dimension), lx(lx),ly(ly), rc(rc) ,nx((int)(lx / rc)),
-                  ny((int)(ly / rc)), cellSize(rc) { initialiserGrille();}
+                  ny((int)(ly / rc)), cellSize(rc) 
+                  { 
+                    if (rc <= 0) throw GenereException("rc doit être > 0");
+                    if (lx <= 0) throw GenereException("lx doit être > 0");
+                    if (ly <= 0) throw GenereException("ly doit être > 0");
+                    if (nx == 0 || ny == 0) throw GenereException("Grille invalide : rc trop grand par rapport au domaine");
+                    initialiserGrille();
+                }
 
 
 double Univers::getEps() const {return eps;} ;

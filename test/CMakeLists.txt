@@ -18,6 +18,8 @@ add_executable(tests
   reflexion.cxx
   Stromer.cxx
   Univers.cxx
+  test_GenereException.cxx
+
 )
 
 target_link_libraries(tests

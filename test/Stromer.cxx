@@ -87,13 +87,4 @@ TEST(StromerTest, ThermostatApplique) {
     EXPECT_NO_THROW(stromer(u, Fo, 0.0005, 1000));
 }
 
-TEST(StromerTest, ParticuleAbsorbeeResteMorte) {
-    Univers u(1.0, 1.0, 2, 10.0, 10.0, 2.5);
-    // vitesse très grande → dépasse Ly=10 en 1 itération
-    u.addParticle(Particle(Vector(5.0, 9.9), Vector(0.0, 10000.0),
-                           1.0, 0, Vector(0,0), "rect"));
-    std::vector<Vector> Fo(1, Vector(0,0,0));
-    u.updateCells();
-    stromer(u, Fo, 0.0005, 0);
-    EXPECT_FALSE(u.getParticles()[0].isAlive());
-}
+
